@@ -8,13 +8,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
+const typeorm_1 = require("@nestjs/typeorm");
 const finance_module_1 = require("./finance.module");
+const invoice_orm_entity_1 = require("./infrastructure/database/entities/invoice.orm-entity");
+const payment_orm_entity_1 = require("./infrastructure/database/entities/payment.orm-entity");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [finance_module_1.FinanceModule],
+        imports: [
+            typeorm_1.TypeOrmModule.forRoot({
+                type: 'mysql',
+                host: process.env.DB_HOST ?? '127.0.0.1',
+                port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3308,
+                username: process.env.DB_USERNAME ?? 'root',
+                password: process.env.DB_PASSWORD ?? 'ishakya0809',
+                database: process.env.DB_DATABASE ?? 'another_home_finance',
+                entities: [invoice_orm_entity_1.InvoiceOrmEntity, payment_orm_entity_1.PaymentOrmEntity],
+                synchronize: true,
+            }),
+            finance_module_1.FinanceModule,
+        ],
         controllers: [],
         providers: [],
     })

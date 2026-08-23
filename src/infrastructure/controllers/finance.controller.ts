@@ -1,11 +1,15 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { GetInvoicesUseCase } from '../../application/use-cases/get-invoices.usecase';
-import { LogPaymentUseCase, LogPaymentDto } from '../../application/use-cases/log-payment.usecase';
+import { CreateInvoiceUseCase } from '../../application/use-cases/create-invoice.usecase';
+import { LogPaymentUseCase } from '../../application/use-cases/log-payment.usecase';
+import { CreateInvoiceDto } from '../dto/create-invoice.dto';
+import { LogPaymentDto } from '../dto/log-payment.dto';
 
 @Controller('finance')
 export class FinanceController {
     constructor(
         private readonly getInvoicesUseCase: GetInvoicesUseCase,
+        private readonly createInvoiceUseCase: CreateInvoiceUseCase,
         private readonly logPaymentUseCase: LogPaymentUseCase,
     ) {}
 
@@ -15,6 +19,24 @@ export class FinanceController {
         return {
             message: 'Pending invoices retrieved successfully.',
             data: invoices,
+        };
+    }
+
+    @Get('invoices/:studentId')
+    async getInvoicesForStudent(@Param('studentId') studentId: string) {
+        const invoices = await this.getInvoicesUseCase.execute(studentId);
+        return {
+            message: 'Invoices retrieved successfully.',
+            data: invoices,
+        };
+    }
+
+    @Post('invoices')
+    async createInvoice(@Body() dto: CreateInvoiceDto) {
+        const invoice = await this.createInvoiceUseCase.execute(dto);
+        return {
+            message: 'Invoice created successfully.',
+            data: invoice,
         };
     }
 

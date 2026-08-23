@@ -5,5 +5,6 @@ export class Payment {
         public readonly amount: number,
         public readonly paymentDate: Date,
         public readonly status: 'Success' | 'Failed',
+        public readonly referenceNumber: string | null = null,
     ) {}
 }

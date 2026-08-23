@@ -1,7 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { INVOICE_REPOSITORY } from '../../domain/ports/invoice.repository.interface';
 import type { IInvoiceRepository } from '../../domain/ports/invoice.repository.interface';
-import { Invoice } from '../../domain/entities/Invoice';
 
 @Injectable()
 export class GetInvoicesUseCase {
@@ -10,7 +9,20 @@ export class GetInvoicesUseCase {
         private readonly invoiceRepository: IInvoiceRepository,
     ) {}
 
-    async execute(): Promise<Invoice[]> {
-        return await this.invoiceRepository.findAll();
+    async execute(studentId?: string) {
+        const invoices = studentId
+            ? await this.invoiceRepository.findByStudentId(studentId)
+            : await this.invoiceRepository.findAll();
+
+        return invoices.map((invoice) => ({
+            invoiceId: invoice.invoiceId,
+            amount: invoice.amount,
+            status: invoice.effectiveStatus,
+            studentId: invoice.studentId,
+            dueDate: invoice.dueDate,
+            description: invoice.description,
+            createdAt: invoice.createdAt,
+            paidAt: invoice.paidAt,
+        }));
     }
 }

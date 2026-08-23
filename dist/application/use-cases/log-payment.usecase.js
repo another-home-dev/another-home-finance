@@ -29,7 +29,7 @@ let LogPaymentUseCase = class LogPaymentUseCase {
         }
         invoice.pay();
         await this.invoiceRepository.save(invoice);
-        const newPayment = new Payment_1.Payment('pay-' + Math.floor(Math.random() * 100000), dto.invoiceId, dto.amount, new Date(), 'Success');
+        const newPayment = new Payment_1.Payment('pay-' + Math.floor(Math.random() * 100000), dto.invoiceId, dto.amount, new Date(), 'Success', dto.referenceNumber ?? null);
         return await this.paymentRepository.save(newPayment);
     }
 };

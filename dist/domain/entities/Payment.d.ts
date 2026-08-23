@@ -4,5 +4,6 @@ export declare class Payment {
     readonly amount: number;
     readonly paymentDate: Date;
     readonly status: 'Success' | 'Failed';
-    constructor(paymentId: string, invoiceId: string, amount: number, paymentDate: Date, status: 'Success' | 'Failed');
+    readonly referenceNumber: string | null;
+    constructor(paymentId: string, invoiceId: string, amount: number, paymentDate: Date, status: 'Success' | 'Failed', referenceNumber?: string | null);
 }
