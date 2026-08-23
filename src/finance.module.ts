@@ -1,24 +1,30 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { FinanceController } from './infrastructure/controllers/finance.controller';
 import { GetInvoicesUseCase } from './application/use-cases/get-invoices.usecase';
+import { CreateInvoiceUseCase } from './application/use-cases/create-invoice.usecase';
 import { LogPaymentUseCase } from './application/use-cases/log-payment.usecase';
 import { INVOICE_REPOSITORY } from './domain/ports/invoice.repository.interface';
-import { InvoiceMockRepository } from './infrastructure/database/repositories/invoice.mock-repository';
+import { InvoiceRepository } from './infrastructure/database/repositories/invoice.repository';
 import { PAYMENT_REPOSITORY } from './domain/ports/payment.repository.interface';
-import { PaymentMockRepository } from './infrastructure/database/repositories/payment.mock-repository';
+import { PaymentRepository } from './infrastructure/database/repositories/payment.repository';
+import { InvoiceOrmEntity } from './infrastructure/database/entities/invoice.orm-entity';
+import { PaymentOrmEntity } from './infrastructure/database/entities/payment.orm-entity';
 
 @Module({
+    imports: [TypeOrmModule.forFeature([InvoiceOrmEntity, PaymentOrmEntity])],
     controllers: [FinanceController],
     providers: [
         GetInvoicesUseCase,
+        CreateInvoiceUseCase,
         LogPaymentUseCase,
         {
             provide: INVOICE_REPOSITORY,
-            useClass: InvoiceMockRepository,
+            useClass: InvoiceRepository,
         },
         {
             provide: PAYMENT_REPOSITORY,
-            useClass: PaymentMockRepository,
+            useClass: PaymentRepository,
         },
     ],
     exports: [GetInvoicesUseCase, LogPaymentUseCase],

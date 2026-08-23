@@ -4,11 +4,7 @@ import type { IInvoiceRepository } from '../../domain/ports/invoice.repository.i
 import { PAYMENT_REPOSITORY } from '../../domain/ports/payment.repository.interface';
 import type { IPaymentRepository } from '../../domain/ports/payment.repository.interface';
 import { Payment } from '../../domain/entities/Payment';
-
-export interface LogPaymentDto {
-    invoiceId: string;
-    amount: number;
-}
+import { LogPaymentDto } from '../../infrastructure/dto/log-payment.dto';
 
 @Injectable()
 export class LogPaymentUseCase {
@@ -33,7 +29,8 @@ export class LogPaymentUseCase {
             dto.invoiceId,
             dto.amount,
             new Date(),
-            'Success'
+            'Success',
+            dto.referenceNumber ?? null,
         );
 
         return await this.paymentRepository.save(newPayment);

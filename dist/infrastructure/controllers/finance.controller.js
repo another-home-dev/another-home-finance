@@ -15,10 +15,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FinanceController = void 0;
 const common_1 = require("@nestjs/common");
 const get_invoices_usecase_1 = require("../../application/use-cases/get-invoices.usecase");
+const create_invoice_usecase_1 = require("../../application/use-cases/create-invoice.usecase");
 const log_payment_usecase_1 = require("../../application/use-cases/log-payment.usecase");
+const create_invoice_dto_1 = require("../dto/create-invoice.dto");
+const log_payment_dto_1 = require("../dto/log-payment.dto");
 let FinanceController = class FinanceController {
-    constructor(getInvoicesUseCase, logPaymentUseCase) {
+    constructor(getInvoicesUseCase, createInvoiceUseCase, logPaymentUseCase) {
         this.getInvoicesUseCase = getInvoicesUseCase;
+        this.createInvoiceUseCase = createInvoiceUseCase;
         this.logPaymentUseCase = logPaymentUseCase;
     }
     async getInvoices() {
@@ -26,6 +30,20 @@ let FinanceController = class FinanceController {
         return {
             message: 'Pending invoices retrieved successfully.',
             data: invoices,
+        };
+    }
+    async getInvoicesForStudent(studentId) {
+        const invoices = await this.getInvoicesUseCase.execute(studentId);
+        return {
+            message: 'Invoices retrieved successfully.',
+            data: invoices,
+        };
+    }
+    async createInvoice(dto) {
+        const invoice = await this.createInvoiceUseCase.execute(dto);
+        return {
+            message: 'Invoice created successfully.',
+            data: invoice,
         };
     }
     async logPayment(dto) {
@@ -44,15 +62,30 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], FinanceController.prototype, "getInvoices", null);
 __decorate([
+    (0, common_1.Get)('invoices/:studentId'),
+    __param(0, (0, common_1.Param)('studentId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], FinanceController.prototype, "getInvoicesForStudent", null);
+__decorate([
+    (0, common_1.Post)('invoices'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_invoice_dto_1.CreateInvoiceDto]),
+    __metadata("design:returntype", Promise)
+], FinanceController.prototype, "createInvoice", null);
+__decorate([
     (0, common_1.Post)('payments'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [log_payment_dto_1.LogPaymentDto]),
     __metadata("design:returntype", Promise)
 ], FinanceController.prototype, "logPayment", null);
 exports.FinanceController = FinanceController = __decorate([
     (0, common_1.Controller)('finance'),
     __metadata("design:paramtypes", [get_invoices_usecase_1.GetInvoicesUseCase,
+        create_invoice_usecase_1.CreateInvoiceUseCase,
         log_payment_usecase_1.LogPaymentUseCase])
 ], FinanceController);
 //# sourceMappingURL=finance.controller.js.map

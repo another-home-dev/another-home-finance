@@ -3,5 +3,6 @@ export declare const INVOICE_REPOSITORY: unique symbol;
 export interface IInvoiceRepository {
     findAll(): Promise<Invoice[]>;
     findById(id: string): Promise<Invoice | null>;
+    findByStudentId(studentId: string): Promise<Invoice[]>;
     save(invoice: Invoice): Promise<Invoice>;
 }

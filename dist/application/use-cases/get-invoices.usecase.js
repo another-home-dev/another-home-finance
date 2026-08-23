@@ -19,8 +19,20 @@ let GetInvoicesUseCase = class GetInvoicesUseCase {
     constructor(invoiceRepository) {
         this.invoiceRepository = invoiceRepository;
     }
-    async execute() {
-        return await this.invoiceRepository.findAll();
+    async execute(studentId) {
+        const invoices = studentId
+            ? await this.invoiceRepository.findByStudentId(studentId)
+            : await this.invoiceRepository.findAll();
+        return invoices.map((invoice) => ({
+            invoiceId: invoice.invoiceId,
+            amount: invoice.amount,
+            status: invoice.effectiveStatus,
+            studentId: invoice.studentId,
+            dueDate: invoice.dueDate,
+            description: invoice.description,
+            createdAt: invoice.createdAt,
+            paidAt: invoice.paidAt,
+        }));
     }
 };
 exports.GetInvoicesUseCase = GetInvoicesUseCase;
