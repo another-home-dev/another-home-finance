@@ -10,8 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateInvoiceDto = void 0;
+const openapi = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 class CreateInvoiceDto {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { studentId: { required: true, type: () => String }, amount: { required: true, type: () => Number, minimum: 1 }, dueDate: { required: true, type: () => String }, description: { required: true, type: () => String } };
+    }
 }
 exports.CreateInvoiceDto = CreateInvoiceDto;
 __decorate([

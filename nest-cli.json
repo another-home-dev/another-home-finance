@@ -3,6 +3,7 @@
   "language": "typescript",
   "sourceRoot": "src",
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "plugins": ["@nestjs/swagger"]
   }
 }

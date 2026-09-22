@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { FinanceModule } from './finance.module';
 import { InvoiceOrmEntity } from './infrastructure/database/entities/invoice.orm-entity';
 import { PaymentOrmEntity } from './infrastructure/database/entities/payment.orm-entity';
+import { HealthController } from './health.controller';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { PaymentOrmEntity } from './infrastructure/database/entities/payment.orm
     }),
     FinanceModule,
   ],
-  controllers: [],
+  controllers: [HealthController],
   providers: [],
 })
 export class AppModule {}
