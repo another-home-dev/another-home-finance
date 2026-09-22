@@ -13,7 +13,9 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FinanceController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
+const swagger_1 = require("@nestjs/swagger");
 const get_invoices_usecase_1 = require("../../application/use-cases/get-invoices.usecase");
 const create_invoice_usecase_1 = require("../../application/use-cases/create-invoice.usecase");
 const log_payment_usecase_1 = require("../../application/use-cases/log-payment.usecase");
@@ -57,12 +59,17 @@ let FinanceController = class FinanceController {
 exports.FinanceController = FinanceController;
 __decorate([
     (0, common_1.Get)('invoices'),
+    (0, swagger_1.ApiOperation)({ summary: 'Get all invoices' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Returns an array of all invoices.' }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], FinanceController.prototype, "getInvoices", null);
 __decorate([
     (0, common_1.Get)('invoices/:studentId'),
+    (0, swagger_1.ApiOperation)({ summary: 'Get all invoices for a specific student' }),
+    (0, swagger_1.ApiParam)({ name: 'studentId', type: String }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Returns an array of invoices for the student.' }),
     __param(0, (0, common_1.Param)('studentId')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -70,6 +77,8 @@ __decorate([
 ], FinanceController.prototype, "getInvoicesForStudent", null);
 __decorate([
     (0, common_1.Post)('invoices'),
+    (0, swagger_1.ApiOperation)({ summary: 'Create a new fee invoice for a student' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: 'Invoice created successfully.' }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_invoice_dto_1.CreateInvoiceDto]),
@@ -77,12 +86,15 @@ __decorate([
 ], FinanceController.prototype, "createInvoice", null);
 __decorate([
     (0, common_1.Post)('payments'),
+    (0, swagger_1.ApiOperation)({ summary: 'Log a payment against an invoice' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: 'Payment logged successfully.' }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [log_payment_dto_1.LogPaymentDto]),
     __metadata("design:returntype", Promise)
 ], FinanceController.prototype, "logPayment", null);
 exports.FinanceController = FinanceController = __decorate([
+    (0, swagger_1.ApiTags)('Finance'),
     (0, common_1.Controller)('finance'),
     __metadata("design:paramtypes", [get_invoices_usecase_1.GetInvoicesUseCase,
         create_invoice_usecase_1.CreateInvoiceUseCase,

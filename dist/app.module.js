@@ -12,6 +12,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const finance_module_1 = require("./finance.module");
 const invoice_orm_entity_1 = require("./infrastructure/database/entities/invoice.orm-entity");
 const payment_orm_entity_1 = require("./infrastructure/database/entities/payment.orm-entity");
+const health_controller_1 = require("./health.controller");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -30,7 +31,7 @@ exports.AppModule = AppModule = __decorate([
             }),
             finance_module_1.FinanceModule,
         ],
-        controllers: [],
+        controllers: [health_controller_1.HealthController],
         providers: [],
     })
 ], AppModule);
