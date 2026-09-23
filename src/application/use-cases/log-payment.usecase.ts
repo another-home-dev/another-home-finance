@@ -5,6 +5,7 @@ import { PAYMENT_REPOSITORY } from '../../domain/ports/payment.repository.interf
 import type { IPaymentRepository } from '../../domain/ports/payment.repository.interface';
 import { Payment } from '../../domain/entities/Payment';
 import { LogPaymentDto } from '../../infrastructure/dto/log-payment.dto';
+import { notifyUser } from '../../common/notification-client';
 
 @Injectable()
 export class LogPaymentUseCase {
@@ -33,6 +34,14 @@ export class LogPaymentUseCase {
             dto.referenceNumber ?? null,
         );
 
-        return await this.paymentRepository.save(newPayment);
+        const saved = await this.paymentRepository.save(newPayment);
+
+        void notifyUser(
+            invoice.studentId,
+            'Payment received',
+            `Your payment of Rs. ${dto.amount} for "${invoice.description}" has been recorded.`,
+        );
+
+        return saved;
     }
 }
