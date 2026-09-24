@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IsNull, LessThanOrEqual, Repository } from 'typeorm';
 import { IInvoiceRepository } from '../../../domain/ports/invoice.repository.interface';
 import { Invoice } from '../../../domain/entities/Invoice';
 import { InvoiceOrmEntity } from '../entities/invoice.orm-entity';
@@ -26,6 +26,13 @@ export class InvoiceRepository implements IInvoiceRepository {
 
     async findByStudentId(studentId: string): Promise<Invoice[]> {
         const ormEntities = await this.typeOrmRepository.find({ where: { studentId } });
+        return ormEntities.map((entity) => InvoiceMapper.toDomain(entity));
+    }
+
+    async findDueForReminder(cutoff: Date): Promise<Invoice[]> {
+        const ormEntities = await this.typeOrmRepository.find({
+            where: { status: 'Pending', dueDate: LessThanOrEqual(cutoff), reminderSentAt: IsNull() },
+        });
         return ormEntities.map((entity) => InvoiceMapper.toDomain(entity));
     }
 
