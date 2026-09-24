@@ -12,6 +12,7 @@ export class InvoiceMapper {
             raw.description,
             raw.createdAt,
             raw.paidAt,
+            raw.reminderSentAt,
         );
     }
 
@@ -24,6 +25,7 @@ export class InvoiceMapper {
         ormEntity.dueDate = domainInvoice.dueDate;
         ormEntity.description = domainInvoice.description;
         ormEntity.paidAt = domainInvoice.paidAt;
+        ormEntity.reminderSentAt = domainInvoice.reminderSentAt;
         return ormEntity;
     }
 }

@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ScheduleModule } from '@nestjs/schedule';
 import { FinanceModule } from './finance.module';
 import { InvoiceOrmEntity } from './infrastructure/database/entities/invoice.orm-entity';
 import { PaymentOrmEntity } from './infrastructure/database/entities/payment.orm-entity';
@@ -17,6 +18,7 @@ import { HealthController } from './health.controller';
       entities: [InvoiceOrmEntity, PaymentOrmEntity],
       synchronize: true, // Keep this true for dev, false for prod
     }),
+    ScheduleModule.forRoot(),
     FinanceModule,
   ],
   controllers: [HealthController],

@@ -25,4 +25,7 @@ export class InvoiceOrmEntity {
 
     @Column({ type: 'timestamp', nullable: true })
     paidAt: Date | null;
+
+    @Column({ type: 'timestamp', nullable: true })
+    reminderSentAt: Date | null;
 }
