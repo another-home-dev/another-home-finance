@@ -12,6 +12,7 @@ describe('CreateInvoiceUseCase', () => {
             findAll: jest.fn(),
             findById: jest.fn(),
             findByStudentId: jest.fn(),
+            findDueForReminder: jest.fn(),
             save: jest.fn(),
         };
 

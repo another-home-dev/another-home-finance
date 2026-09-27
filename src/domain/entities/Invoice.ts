@@ -8,11 +8,18 @@ export class Invoice {
         public readonly description: string,
         public readonly createdAt: Date = new Date(),
         public paidAt: Date | null = null,
+        // Set once a due-date reminder has gone out, so the daily job never
+        // re-notifies the same invoice.
+        public reminderSentAt: Date | null = null,
     ) {}
 
     pay(): void {
         this.status = 'Paid';
         this.paidAt = new Date();
+    }
+
+    markReminderSent(): void {
+        this.reminderSentAt = new Date();
     }
 
     /** 'Overdue' is a derived read-only view, never persisted as a third status value. */
