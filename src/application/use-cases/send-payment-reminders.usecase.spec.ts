@@ -2,6 +2,8 @@ import { SendPaymentRemindersUseCase } from './send-payment-reminders.usecase';
 import { IInvoiceRepository } from '../../domain/ports/invoice.repository.interface';
 import { Invoice } from '../../domain/entities/Invoice';
 
+jest.mock('../../common/notification-client', () => ({ notifyUser: jest.fn() }));
+
 describe('SendPaymentRemindersUseCase', () => {
     let useCase: SendPaymentRemindersUseCase;
     let mockInvoiceRepository: jest.Mocked<IInvoiceRepository>;
