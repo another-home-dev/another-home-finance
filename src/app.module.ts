@@ -17,6 +17,10 @@ import { HealthController } from './health.controller';
       database: process.env.DB_DATABASE ?? 'another_home_finance',
       entities: [InvoiceOrmEntity, PaymentOrmEntity],
       synchronize: true, // Keep this true for dev, false for prod
+      // Default mysql2 pool is 10; raised to handle bursts of concurrent
+      // students. 4 services share one MySQL instance (max_connections: 151
+      // default), so 25 each (100 total) leaves headroom for the rest.
+      extra: { connectionLimit: 25 },
     }),
     ScheduleModule.forRoot(),
     FinanceModule,

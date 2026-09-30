@@ -4,6 +4,8 @@ import { IPaymentRepository } from '../../domain/ports/payment.repository.interf
 import { Invoice } from '../../domain/entities/Invoice';
 import { NotFoundException } from '@nestjs/common';
 
+jest.mock('../../common/notification-client', () => ({ notifyUser: jest.fn() }));
+
 describe('LogPaymentUseCase', () => {
     let useCase: LogPaymentUseCase;
     let mockInvoiceRepository: jest.Mocked<IInvoiceRepository>;
